@@ -1,0 +1,45 @@
+{
+	"name": "Sync Chataigne Instances",
+	"type": "OSC",
+	"path": "Software",
+	
+	"version": "0.0.0",
+	"description": "Module to sync chataigne instances via OSC",
+	"url": "",
+	"downloadURL": "",
+	
+	"hasInput": false,
+	"hasOutput": true, 
+	"hideDefaultCommands": true,
+	"hideDefaultParameters": [
+		"autoRange",
+		"autoFeedback",
+		"pass_through",
+		"input",
+		"outputs"
+	],
+	
+	"defaults": {
+		"autoAdd": true,
+		"OSC Outputs": {
+			"OSC Output": {
+				"local": true,
+				"remoteHost": "192.168.0.255",
+				"remotePort": 42000
+			}
+		}
+	},
+	
+	"parameters": {
+	},
+	
+	"scripts": [
+		"sync.js"
+	],
+	
+	"values": {
+	},
+	
+	"commands": {
+	}
+}
