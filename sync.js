@@ -20,8 +20,7 @@ function initSequenceState() {
 		var state = {
 			"name": seq.name,
 			"isPlaying": seq.isPlaying.get(),
-			"time": seq.currentTime.get(),
-			"lastUpdate": util.getTime()
+			"time": seq.currentTime.get()
 		};
 
 		sequenceStates.push(state);
