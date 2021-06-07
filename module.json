@@ -3,7 +3,7 @@
 	"type": "OSC",
 	"path": "Software",
 	
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Module to sync chataigne instances via OSC",
 	"url": "https://github.com/jonglissimo/Sync-Chataigne-Module",
 	"downloadURL": "https://github.com/jonglissimo/Sync-Chataigne-Module/archive/master.zip",
@@ -16,7 +16,9 @@
 		"autoFeedback",
 		"pass_through",
 		"input",
-		"outputs"
+		"outputs",
+		"useHierarchy",
+		"colorSendMode"
 	],
 	
 	"defaults": {
@@ -31,6 +33,7 @@
 	},
 	
 	"parameters": {
+		"Resync all sequences": { "type": "Trigger", "description": "Resyncs all sequences. Updates play state and current time." }
 	},
 	
 	"scripts": [

@@ -1,4 +1,5 @@
 var sequenceStates = [];
+var resyncTrigger = local.parameters.resyncAllSequences;
 
 
 function init() {
@@ -8,6 +9,12 @@ function init() {
 
 function update(deltaTime) {
 	updateSequenceState(deltaTime);
+}
+
+function moduleParameterChanged(param){    
+	if (param.is(resyncTrigger)) {
+		resync();
+	}
 }
 
 function initSequenceState() {
@@ -57,6 +64,23 @@ function updatePlayState(sequenceName, isPlaying, currentTime, deltaTime) {
 	}
 }
 
+function resync() {
+	var items = root.sequences.getItems();
+
+	for (var i = 0; i < items.length; i++) {
+		var seq = items[i];
+		
+		sendSequenceTime(seq.name, seq.currentTime.get());
+
+		if (seq.isPlaying.get()) {
+			sendSequencePlay(seq.name);
+		} else {
+			sendSequencePause(seq.name);
+		}
+	}
+
+	initSequenceState();
+}
 
 
 //////////////////////////////////////////////////////
