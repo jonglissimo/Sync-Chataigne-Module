@@ -18,7 +18,9 @@
 		"input",
 		"outputs",
 		"useHierarchy",
-		"colorSendMode"
+		"colorSendMode",
+		"booleanSendMode",
+		"clearValues"
 	],
 	
 	"defaults": {
@@ -33,7 +35,10 @@
 	},
 	
 	"parameters": {
-		"Resync all sequences": { "type": "Trigger", "description": "Resyncs all sequences. Updates play state and current time." }
+		"App": { "type": "Enum", "description": "Load a sequence address pattern for an organic UI app", "options": { "Chataigne": "chataigne", "Bento":"bento", "Blux":"blux" }}, 
+		"Sequence address": {"type":"String","description":"Base address for the sequence to target. {name} will be replace by the name of the sequence", "default":"/sequences/{name}"},
+		"Resync all sequences": { "type": "Trigger", "description": "Resyncs all sequences. Updates play state and current time." },
+		"Time Offset": { "type": "Float", "description": "Time offset in seconds", "min": 0.0, "max": 2.0, "default": 0.0 }
 	},
 	
 	"scripts": [

@@ -1,6 +1,9 @@
 var sequenceStates = [];
 var resyncTrigger = local.parameters.resyncAllSequences;
-
+var appEnum = local.parameters.app;
+var sequenceAddressParameter = local.parameters.sequenceAddress;
+var timeOffsetParameter = local.parameters.timeOffset;
+var loadedScene = "";
 
 function init() {
 	script.setUpdateRate(15);
@@ -14,7 +17,17 @@ function update(deltaTime) {
 function moduleParameterChanged(param){    
 	if (param.is(resyncTrigger)) {
 		resync();
-	}
+	} else if (param.is(appEnum)) {
+		var app = appEnum.get();
+
+		if (app == "chataige") {
+			sequenceAddressParameter.set("/sequences/{name}");
+		} else if (app == "bento") {
+			sequenceAddressParameter.set("/library/timeline/{name}/sequence");
+		} else if (app == "blux") {
+			sequenceAddressParameter.set("/scenes/{name}/sequences/sequence");
+		} 
+	} 
 }
 
 function initSequenceState() {
@@ -27,7 +40,7 @@ function initSequenceState() {
 		var state = {
 			"name": seq.name,
 			"isPlaying": seq.isPlaying.get(),
-			"time": seq.currentTime.get()
+			"time": seq.currentTime.get(),
 		};
 
 		sequenceStates.push(state);
@@ -49,6 +62,7 @@ function updatePlayState(sequenceName, isPlaying, currentTime, deltaTime) {
 	var last = getLastState(sequenceName);
 
 	if (isPlaying && !last.isPlaying) {
+		sendSceneLoad(sequenceName);
 		sendSequenceTime(sequenceName, currentTime);
 		sendSequencePlay(sequenceName);
 	} else if (!isPlaying && last.isPlaying) {
@@ -88,20 +102,34 @@ function resync() {
 //////////////////////////////////////////////////////
 
 function sendSequenceTime(sequenceName, time) {
-	var address = "/sequences/" + sequenceName + "/currentTime";
+	var address = getSeqAddress(sequenceName) + "/currentTime";
+	var time = time + timeOffsetParameter.get();
 	local.send(address, time);
 }
 
 function sendSequencePlay(sequenceName) {
-	var address = "/sequences/" + sequenceName + "/play";
+	var address = getSeqAddress(sequenceName) + "/play";
 	local.send(address);	
 }
 
 function sendSequencePause(sequenceName) {
-	var address = "/sequences/" + sequenceName + "/pause";
+	var address = getSeqAddress(sequenceName) + "/pause";
 	local.send(address);	
 }
 
+function sendSceneLoad(sequenceName) {
+	if (appEnum.get() == "blux" && sequenceName != loadedScene) {
+		var address = "/scenes/" + sequenceName + "/load";
+		local.send(address);
+
+		loadedScene = sequenceName;
+	}
+}
+
+function getSeqAddress(sequenceName)
+{
+	return local.parameters.sequenceAddress.get().replace("{name}", sequenceName);
+}
 
 //////////////////////////////////////////////////////
 // Helpers

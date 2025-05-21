@@ -1,6 +1,6 @@
 # Sync Chataigne Module
 
-This is a Chataigne module that synchronizes the local sequences to another Chataigne instance sequences via the OSC remote control.
+This is a Chataigne module that synchronizes the local sequences to another Chataigne instance (or other organic_ui based apps like Blux or Bento) sequences via the OSC remote control.
 
 ## Setup
 
